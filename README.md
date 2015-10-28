@@ -81,7 +81,7 @@ input.addEventListener('change', function() {
 });
 ```
 
-### [`API`](https://github.com/tristen/suggestions/blob/master/API.md)
+### [`API`](https://github.com/tristen/suggestions/blob/gh-pages/API.md)
 
 ### Running locally
 
