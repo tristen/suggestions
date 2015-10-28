@@ -1,0 +1,33 @@
+.suggestions {
+  background-color:#FFFFFF;
+  font-size:14px;
+  left:0;
+  list-style:none;
+  margin:0;
+  padding:0;
+  position:absolute;
+  text-align:left;
+  width:100%;
+  top:100%;
+  z-index:1;
+  }
+  .suggestions > li > a {
+    clear:both;
+    cursor:default;
+    display:block;
+    padding:5px 10px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    text-decoration:none;
+    border:0;
+    color:rgba(0,0,0,0.75);
+    }
+    .suggestions > li.active > a,
+    .suggestions > li > a:hover {
+      background-color:#0d8dff;
+      color:#fff;
+      text-decoration:none;
+      cursor:pointer;
+      }
