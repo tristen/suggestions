@@ -3,7 +3,7 @@ Suggestions
 
 A typeahead component for inputs
 
-[![npm version](http://img.shields.io/npm/v/suggestions.svg)](https://npmjs.org/package/suggestions) [![Circle CI](https://circleci.com/gh/tristen/suggestions.svg?style=svg)](https://circleci.com/gh/tristen/suggestions)
+[![npm version](http://img.shields.io/npm/v/suggestions.svg)](https://npmjs.org/package/suggestions) [![Circle CI](https://circleci.com/gh/tristen/suggestions/tree/gh-pages.svg?style=svg)](https://circleci.com/gh/tristen/suggestions/tree/gh-pages)
 
 [__Demo__](http://tristen.ca/suggestions/demo/)
 
