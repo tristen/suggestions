@@ -1,3 +1,57 @@
+## `getItemValue`
+
+For a given item in the data array, return what should be used as the candidate string
+
+### Parameters
+
+* `item` **`Object or String`** an item from the data array
+
+
+
+Returns `String` item
+
+
+## `highlight`
+
+Intercept an item from the results list & highlight the portion in the result
+string that matches the query
+
+### Parameters
+
+* `item` **`String`** an item that qualifies as a result from the data array
+
+
+
+Returns `String` A formated string (HTML allowed).
+
+
+## `match`
+
+Evaluates whether an array item qualifies as a match with the current query
+
+### Parameters
+
+* `candidate` **`String`** a possible item from the array passed
+* `query` **`String`** the current query
+
+
+
+Returns `Boolean` 
+
+
+## `normalize`
+
+Normalize the results list and input value for matching
+
+### Parameters
+
+* `value` **`String`** 
+
+
+
+Returns `String` 
+
+
 ## `Suggestions`
 
 A typeahead component for inputs

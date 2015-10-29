@@ -1,6 +1,7 @@
 'use strict';
 
-/** A typeahead component for inputs
+/**
+ * A typeahead component for inputs
  * @class Suggestions
  *
  * @param {HTMLInputElement} el A valid HTML input element

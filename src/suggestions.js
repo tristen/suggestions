@@ -57,7 +57,7 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
       keyCode === 13 ||
       keyCode === 9) return;
 
-  this.query = this.filter(this.el.value);
+  this.query = this.normalize(this.el.value);
 
   this.list.clear();
 
@@ -78,9 +78,7 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
 };
 
 Suggestions.prototype.handleKeyDown = function(e) {
-  var keyCode = e.keyCode;
-
-  switch (keyCode) {
+  switch (e.keyCode) {
     case 13: // ENTER
     case 9:  // TAB
       if (!this.list.isEmpty()) {
@@ -108,13 +106,26 @@ Suggestions.prototype.handleFocus = function() {
   if (!this.list.isEmpty()) this.list.show();
 };
 
-Suggestions.prototype.filter = function(value) {
+/**
+ * Normalize the results list and input value for matching
+ *
+ * @param {String} value
+ * @return {String}
+ */
+Suggestions.prototype.normalize = function(value) {
   value = value.toLowerCase();
   return value;
 };
 
-Suggestions.prototype.match = function(candidate) {
-  return candidate.indexOf(this.query) > -1;
+/**
+ * Evaluates whether an array item qualifies as a match with the current query
+ *
+ * @param {String} candidate a possible item from the array passed
+ * @param {String} query the current query
+ * @return {Boolean}
+ */
+Suggestions.prototype.match = function(candidate, query) {
+  return candidate.indexOf(query) > -1;
 };
 
 Suggestions.prototype.value = function(value) {
@@ -135,17 +146,30 @@ Suggestions.prototype.getCandidates = function(callback) {
 
   for (var i = 0; i < this.data.length; i++) {
     var candidate = this.getItemValue(this.data[i]);
-    if (this.match(this.filter(candidate))) {
+    if (this.match(this.normalize(candidate), this.query)) {
       items.push(this.data[i]);
     }
   }
   callback(items);
 };
 
+/**
+ * For a given item in the data array, return what should be used as the candidate string
+ *
+ * @param {Object|String} item an item from the data array
+ * @return {String} item
+ */
 Suggestions.prototype.getItemValue = function(item) {
   return item;
 };
 
+/**
+ * Intercept an item from the results list & highlight the portion in the result
+ * string that matches the query
+ *
+ * @param {String} item an item that qualifies as a result from the data array
+ * @return {String} A formated string (HTML allowed).
+ */
 Suggestions.prototype.highlight = function(item) {
   return this.getItemValue(item).replace(new RegExp(this.query, 'ig'), function($1) {
     return '<strong>' + $1 + '</strong>';
