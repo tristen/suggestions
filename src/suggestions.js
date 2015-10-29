@@ -147,8 +147,8 @@ Suggestions.prototype.getItemValue = function(item) {
 };
 
 Suggestions.prototype.highlight = function(item) {
-  return this.getItemValue(item).replace(new RegExp('^(' + this.query + ')', 'ig'), function($1, match) {
-    return '<strong>' + match + '</strong>';
+  return this.getItemValue(item).replace(new RegExp(this.query, 'ig'), function($1) {
+    return '<strong>' + $1 + '</strong>';
   });
 };
 
