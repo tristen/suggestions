@@ -69,9 +69,7 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
   this.getCandidates(function(data) {
     for (var i = 0; i < data.length; i++) {
       this.list.add(data[i]);
-      if (this.options.limit !== false && i === this.limit) {
-        break;
-      }
+      if (i === (this.options.limit - 1)) break;
     }
     this.list.draw();
   }.bind(this));

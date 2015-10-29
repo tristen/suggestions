@@ -49,14 +49,42 @@ test('basics', function(t) {
   t.ok(suggestionsContainer.querySelectorAll('li').length, 'results still present on focus');
   t.equal(suggestionList[0].classList.contains('active'), true, 'first item is active');
 
-  var mouseDownEvent = document.createEvent('HTMLEvents');
-  mouseDownEvent.initEvent('mousedown', true, false);
-  suggestionList[1].dispatchEvent(mouseDownEvent);
+  // TODO test results hightlighting when keyboard events
+  // emit up/down keystrokes.
 
-  // console.log('CLASSLIST', suggestionList[1].classList);
-  // t.equal(suggestionList[0].classList.contains('active'), false, 'first item no longer active');
-  // t.equal(suggestionList[1].classList.contains('active'), true, 'second item is active');
+  t.end();
+});
 
+test('options', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = ['bear', 'bearing', 'bar', 'ball'];
+  suggestions(input, data, {
+    minLength: 3,
+    limit: 1
+  });
+
+  var suggestionsContainer = parent.querySelector('ul');
+
+  var keyUpEvent = document.createEvent('HTMLEvents');
+  keyUpEvent.initEvent('keyup', true, false);
+
+  var focusEvent = document.createEvent('HTMLEvents');
+  focusEvent.initEvent('focus', true, false);
+
+  input.value = 'be';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+  t.equal(suggestionsContainer.style.display, 'none', 'options.minLength passed by not populating a result');
+
+  input.value = 'bea';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+  t.equal(suggestionsContainer.style.display, 'block', 'options.minLength passed by populating results after 3 chars');
+
+  t.equal(suggestionsContainer.querySelectorAll('li').length, 1, 'options.limit passed');
   t.end();
 });
 
