@@ -38,7 +38,6 @@ var Suggestions = function(el, data, options) {
 
   this.update = function(revisedData) {
     this.data = revisedData;
-    this.handleKeyUp.call(this);
   }.bind(this);
 
   return this;
