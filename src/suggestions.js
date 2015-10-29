@@ -82,13 +82,13 @@ Suggestions.prototype.handleKeyDown = function(e) {
 
   switch (keyCode) {
     case 13: // ENTER
+    case 9:  // TAB
       if (!this.list.isEmpty()) {
         this.value(this.list.items[this.list.active]);
         this.list.hide();
       }
     break;
     case 27: // ESC
-    case 9:  // TAB
       if (!this.list.isEmpty()) this.list.hide();
     break;
     case 38: // UP
