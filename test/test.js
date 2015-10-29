@@ -52,6 +52,7 @@ test('basics', function(t) {
   // TODO test results hightlighting when keyboard events
   // emit up/down keystrokes.
 
+  // TODO test that enter adds the result to the input containar
   t.end();
 });
 
@@ -85,6 +86,44 @@ test('options', function(t) {
   t.equal(suggestionsContainer.style.display, 'block', 'options.minLength passed by populating results after 3 chars');
 
   t.equal(suggestionsContainer.querySelectorAll('li').length, 1, 'options.limit passed');
+  t.end();
+});
+
+test('Suggestion.getItemValue', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = [{
+    name: 'bear',
+    id: 0
+  }, {
+    name: 'bearing',
+    id: 1
+  }, {
+    name: 'bar',
+    id: 2
+  }, {
+    name: 'ball',
+    id: 3
+  }];
+
+  var typeahead = suggestions(input, data);
+  typeahead.getItemValue = function(item) { return item.name; };
+
+  var keyUpEvent = document.createEvent('HTMLEvents');
+  keyUpEvent.initEvent('keyup', true, false);
+
+  var focusEvent = document.createEvent('HTMLEvents');
+  focusEvent.initEvent('focus', true, false);
+
+  input.value = 'bear';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
+
+  // TODO test that after enter, suggestions.selected works.
   t.end();
 });
 
