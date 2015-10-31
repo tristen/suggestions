@@ -32,7 +32,7 @@ test('basics', function(t) {
 
   var suggestionList = suggestionsContainer.querySelectorAll('li');
   var suggestionResults = [];
-  Array.prototype.forEach.call(suggestionList, function(el){
+  Array.prototype.forEach.call(suggestionList, function(el) {
     suggestionResults.push(el.textContent);
   });
 
@@ -124,6 +124,39 @@ test('Suggestion.getItemValue', function(t) {
   t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
 
   // TODO test that after enter, suggestions.selected works.
+  t.end();
+});
+
+test('Suggestion.update', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  // Initial array of data
+  var data = ['bear', 'bearing', 'bar', 'ball'];
+
+  var typeahead = suggestions(input, data);
+  var suggestionsContainer = parent.querySelector('ul');
+
+  typeahead.update(['hear', 'hearing', 'har', 'hail']);
+  input.value = 'hear';
+
+  var keyUpEvent = document.createEvent('HTMLEvents');
+  keyUpEvent.initEvent('keyup', true, false);
+
+  var focusEvent = document.createEvent('HTMLEvents');
+  focusEvent.initEvent('focus', true, false);
+
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  var suggestionList = suggestionsContainer.querySelectorAll('li');
+  var suggestionResults = [];
+  Array.prototype.forEach.call(suggestionList, function(el) {
+    suggestionResults.push(el.textContent);
+  });
+
+  t.deepEqual(suggestionResults, ['hear', 'hearing'], 'Data array was revised');
   t.end();
 });
 

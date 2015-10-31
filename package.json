@@ -7,7 +7,7 @@
     "start": "budo index.js --serve=dist/suggestions.js --live -d | bistre",
     "build": "browserify index.js | uglifyjs -c -m > dist/suggestions.js",
     "lint": "eslint --no-eslintrc -c .eslintrc index.js src",
-    "docs": "documentation . --format=md > API.md",
+    "docs": "documentation --format=md > API.md",
     "test": "npm run lint && browserify test/test.js | smokestack -b firefox | tap-status"
   },
   "repository": {
@@ -29,7 +29,7 @@
     "bistre": "^1.0.1",
     "browserify": "^12.0.1",
     "budo": "^5.1.5",
-    "documentation": "^2.0.1",
+    "documentation": "^3.0.0",
     "eslint": "^1.7.3",
     "smokestack": "^3.4.1",
     "tap-status": "^1.0.1",

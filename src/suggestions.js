@@ -36,10 +36,6 @@ var Suggestions = function(el, data, options) {
     this.handleBlur.call(this);
   }.bind(this));
 
-  this.update = function(revisedData) {
-    this.data = revisedData;
-  }.bind(this);
-
   return this;
 };
 
@@ -101,6 +97,15 @@ Suggestions.prototype.handleBlur = function() {
 
 Suggestions.prototype.handleFocus = function() {
   if (!this.list.isEmpty()) this.list.show();
+};
+
+/**
+ * Update data previously passed
+ *
+ * @param {Array} revisedData
+ */
+Suggestions.prototype.update = function(revisedData) {
+  this.data = revisedData;
 };
 
 /**
