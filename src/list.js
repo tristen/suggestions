@@ -53,7 +53,7 @@ List.prototype.drawItem = function(item, active) {
 
   if (active) li.className += ' active';
 
-  a.innerHTML = this.component.highlight(item);
+  a.innerHTML = item.string;
 
   li.appendChild(a);
   this.element.appendChild(li);
