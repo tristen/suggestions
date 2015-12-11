@@ -17,7 +17,7 @@ test('basics', function(t) {
   t.equal(suggestionsContainer.style.display, 'none', 'suggestions container is initially hidden');
   t.equal(typeahead.data, data, 'data is set');
 
-  input.value = 'bear';
+  input.value = 'ear';
 
   var keyUpEvent = document.createEvent('HTMLEvents');
   keyUpEvent.initEvent('keyup', true, false);

@@ -1,6 +1,7 @@
 'use strict';
 
 var extend = require('xtend');
+var fuzzy = require('fuzzy');
 var List = require('./list');
 
 var Suggestions = function(el, data, options) {
@@ -21,19 +22,19 @@ var Suggestions = function(el, data, options) {
   this.list.draw();
 
   this.el.addEventListener('keyup', function(e) {
-    this.handleKeyUp.call(this, e.keyCode);
+    this.handleKeyUp(e.keyCode);
   }.bind(this), false);
 
   this.el.addEventListener('keydown', function(e) {
-    this.handleKeyDown.call(this, e);
+    this.handleKeyDown(e);
   }.bind(this));
 
   this.el.addEventListener('focus', function() {
-    this.handleFocus.call(this);
+    this.handleFocus();
   }.bind(this));
 
   this.el.addEventListener('blur', function() {
-    this.handleBlur.call(this);
+    this.handleBlur();
   }.bind(this));
 
   return this;
@@ -75,7 +76,7 @@ Suggestions.prototype.handleKeyDown = function(e) {
     case 13: // ENTER
     case 9:  // TAB
       if (!this.list.isEmpty()) {
-        this.value(this.list.items[this.list.active]);
+        this.value(this.list.items[this.list.active].original);
         this.list.hide();
       }
     break;
@@ -144,15 +145,14 @@ Suggestions.prototype.value = function(value) {
 };
 
 Suggestions.prototype.getCandidates = function(callback) {
-  var items = [];
+  var options = {
+    pre: '<strong>',
+    post: '</strong>',
+    extract: function(d) { return this.getItemValue(d); }.bind(this)
+  };
 
-  for (var i = 0; i < this.data.length; i++) {
-    var candidate = this.getItemValue(this.data[i]);
-    if (this.match(this.normalize(candidate), this.query)) {
-      items.push(this.data[i]);
-    }
-  }
-  callback(items);
+  var results = fuzzy.filter(this.query, this.data, options);
+  callback(results);
 };
 
 /**
@@ -163,19 +163,6 @@ Suggestions.prototype.getCandidates = function(callback) {
  */
 Suggestions.prototype.getItemValue = function(item) {
   return item;
-};
-
-/**
- * Intercept an item from the results list & highlight the portion in the result
- * string that matches the query
- *
- * @param {String} item an item that qualifies as a result from the data array
- * @return {String} A formated string (HTML allowed).
- */
-Suggestions.prototype.highlight = function(item) {
-  return this.getItemValue(item).replace(new RegExp(this.query, 'ig'), function($1) {
-    return '<strong>' + $1 + '</strong>';
-  });
 };
 
 module.exports = Suggestions;
