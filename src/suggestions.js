@@ -21,19 +21,19 @@ var Suggestions = function(el, data, options) {
   this.list.draw();
 
   this.el.addEventListener('keyup', function(e) {
-    this.handleKeyUp.call(this, e.keyCode);
+    this.handleKeyUp(e.keyCode);
   }.bind(this), false);
 
   this.el.addEventListener('keydown', function(e) {
-    this.handleKeyDown.call(this, e);
+    this.handleKeyDown(e);
   }.bind(this));
 
   this.el.addEventListener('focus', function() {
-    this.handleFocus.call(this);
+    this.handleFocus();
   }.bind(this));
 
   this.el.addEventListener('blur', function() {
-    this.handleBlur.call(this);
+    this.handleBlur();
   }.bind(this));
 
   return this;
