@@ -64,7 +64,7 @@ List.prototype.drawItem = function(item, active) {
 };
 
 List.prototype.handleMouseDown = function(item) {
-  this.component.value(item);
+  this.component.value(item.original);
   this.clear();
   this.draw();
 };
