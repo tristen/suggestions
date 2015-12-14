@@ -83,23 +83,6 @@ Returns **String** item
 
 
 
-## highlight
-
-Intercept an item from the results list & highlight the portion in the result
-string that matches the query
-
-
-**Parameters**
-
--   `item` **String** an item that qualifies as a result from the data array
-
-
-
-Returns **String** A formated string (HTML allowed).
-
-
-
-
 ## match
 
 Evaluates whether an array item qualifies as a match with the current query
