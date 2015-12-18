@@ -1,3 +1,7 @@
+### v1.1.3
+
+- Passing tests
+
 ### v1.1.2
 
 - [bug] Clear container when update is called [#9](https://github.com/tristen/suggestions/pull/9)
