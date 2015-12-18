@@ -1,3 +1,8 @@
+### v1.1.2
+
+- [bug] Clear container when update is called [#9](https://github.com/tristen/suggestions/pull/9)
+- [bug] Export Suggestions as class [#8](https://github.com/tristen/suggestions/issues/8)
+
 ### v1.1.1
 
 - [bug] Account for mousedown selection of value [#7](https://github.com/tristen/suggestions/pull/7)
