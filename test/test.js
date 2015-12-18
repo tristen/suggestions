@@ -1,7 +1,7 @@
 'use strict';
 
 var test = require('tape');
-var suggestions = require('../');
+var Suggestions = require('../');
 
 test('basics', function(t) {
   var parent = document.createElement('div');
@@ -9,7 +9,7 @@ test('basics', function(t) {
   parent.appendChild(input);
 
   var data = ['bear', 'bearing', 'bar', 'ball'];
-  var typeahead = suggestions(input, data);
+  var typeahead = new Suggestions(input, data);
 
   var suggestionsContainer = parent.querySelector('ul');
 
@@ -62,7 +62,7 @@ test('options', function(t) {
   parent.appendChild(input);
 
   var data = ['bear', 'bearing', 'bar', 'ball'];
-  suggestions(input, data, {
+  new Suggestions(input, data, {
     minLength: 3,
     limit: 1
   });
@@ -108,7 +108,7 @@ test('Suggestion.getItemValue', function(t) {
     id: 3
   }];
 
-  var typeahead = suggestions(input, data);
+  var typeahead = new Suggestions(input, data);
   typeahead.getItemValue = function(item) { return item.name; };
 
   var keyUpEvent = document.createEvent('HTMLEvents');
@@ -135,7 +135,7 @@ test('Suggestion.update', function(t) {
   // Initial array of data
   var data = ['bear', 'bearing', 'bar', 'ball'];
 
-  var typeahead = suggestions(input, data);
+  var typeahead = new Suggestions(input, data);
   var suggestionsContainer = parent.querySelector('ul');
 
   typeahead.update(['hear', 'hearing', 'har', 'hail']);
