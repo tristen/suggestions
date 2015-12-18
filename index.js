@@ -53,9 +53,4 @@
  * new Suggestions(input, data);
  */
 var Suggestions = require('./src/suggestions');
-
-function exportFn(el, data, options) {
-  return new Suggestions(el, data, options);
-}
-
-window.Suggestions = module.exports = exportFn;
+window.Suggestions = module.exports = Suggestions;
