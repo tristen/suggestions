@@ -156,7 +156,15 @@ test('Suggestion.update', function(t) {
     suggestionResults.push(el.textContent);
   });
 
-  t.deepEqual(suggestionResults, ['hear', 'hearing'], 'Data array was revised');
+  t.deepEqual(suggestionResults, ['hear', 'hearing'], 'data array was revised');
+
+  typeahead.update([]);
+  input.value = 'hear';
+
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  t.equal(suggestionsContainer.querySelectorAll('li').length, 0, 'no container results were returned');
   t.end();
 });
 

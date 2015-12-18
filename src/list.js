@@ -29,7 +29,7 @@ List.prototype.clear = function() {
 };
 
 List.prototype.isEmpty = function() {
-  return this.element.children.length === 0;
+  return !this.items.length;
 };
 
 List.prototype.draw = function() {
