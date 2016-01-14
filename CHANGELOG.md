@@ -1,3 +1,7 @@
+### v1.2.0
+
+- [featurel] clear method [#10](https://github.com/tristen/suggestions/pull/10)
+
 ### v1.1.3
 
 - Passing tests

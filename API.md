@@ -67,6 +67,12 @@ Returns **Suggestions** `this`
 
 
 
+## clear
+
+Clears data
+
+
+
 ## getItemValue
 
 For a given item in the data array, return what should be used as the candidate string
