@@ -3,6 +3,13 @@
 var test = require('tape');
 var Suggestions = require('../');
 
+var keyUpEvent = document.createEvent('HTMLEvents');
+keyUpEvent.initEvent('keyup', true, false);
+var focusEvent = document.createEvent('HTMLEvents');
+focusEvent.initEvent('focus', true, false);
+var blurEvent = document.createEvent('HTMLEvents');
+blurEvent.initEvent('blur', true, false);
+
 test('basics', function(t) {
   var parent = document.createElement('div');
   var input = document.createElement('input');
@@ -19,12 +26,6 @@ test('basics', function(t) {
 
   input.value = 'ear';
 
-  var keyUpEvent = document.createEvent('HTMLEvents');
-  keyUpEvent.initEvent('keyup', true, false);
-
-  var focusEvent = document.createEvent('HTMLEvents');
-  focusEvent.initEvent('focus', true, false);
-
   input.dispatchEvent(keyUpEvent);
   input.dispatchEvent(focusEvent);
 
@@ -38,8 +39,6 @@ test('basics', function(t) {
 
   t.deepEqual(suggestionResults, ['bear', 'bearing'], 'populate a correct results');
 
-  var blurEvent = document.createEvent('HTMLEvents');
-  blurEvent.initEvent('blur', true, false);
   input.dispatchEvent(blurEvent);
 
   t.equal(suggestionsContainer.style.display, 'none', 'suggestions container hidden on blur');
@@ -68,12 +67,6 @@ test('options', function(t) {
   });
 
   var suggestionsContainer = parent.querySelector('ul');
-
-  var keyUpEvent = document.createEvent('HTMLEvents');
-  keyUpEvent.initEvent('keyup', true, false);
-
-  var focusEvent = document.createEvent('HTMLEvents');
-  focusEvent.initEvent('focus', true, false);
 
   input.value = 'be';
   input.dispatchEvent(keyUpEvent);
@@ -111,12 +104,6 @@ test('Suggestion.getItemValue', function(t) {
   var typeahead = new Suggestions(input, data);
   typeahead.getItemValue = function(item) { return item.name; };
 
-  var keyUpEvent = document.createEvent('HTMLEvents');
-  keyUpEvent.initEvent('keyup', true, false);
-
-  var focusEvent = document.createEvent('HTMLEvents');
-  focusEvent.initEvent('focus', true, false);
-
   input.value = 'bear';
   input.dispatchEvent(keyUpEvent);
   input.dispatchEvent(focusEvent);
@@ -141,12 +128,6 @@ test('Suggestion.update', function(t) {
   typeahead.update(['hear', 'hearing', 'har', 'hail']);
   input.value = 'hear';
 
-  var keyUpEvent = document.createEvent('HTMLEvents');
-  keyUpEvent.initEvent('keyup', true, false);
-
-  var focusEvent = document.createEvent('HTMLEvents');
-  focusEvent.initEvent('focus', true, false);
-
   input.dispatchEvent(keyUpEvent);
   input.dispatchEvent(focusEvent);
 
@@ -157,8 +138,21 @@ test('Suggestion.update', function(t) {
   });
 
   t.deepEqual(suggestionResults, ['hear', 'hearing'], 'data array was revised');
+  t.end();
+});
 
-  typeahead.update([]);
+test('Suggestion.clear', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  // Initial array of data
+  var data = ['bear', 'bearing', 'bar', 'ball'];
+
+  var typeahead = new Suggestions(input, data);
+  var suggestionsContainer = parent.querySelector('ul');
+
+  typeahead.clear();
   input.value = 'hear';
 
   input.dispatchEvent(keyUpEvent);

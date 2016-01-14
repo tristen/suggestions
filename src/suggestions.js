@@ -107,6 +107,14 @@ Suggestions.prototype.handleFocus = function() {
  */
 Suggestions.prototype.update = function(revisedData) {
   this.data = revisedData;
+  this.list.draw();
+};
+
+/**
+ * Clears data
+ */
+Suggestions.prototype.clear = function() {
+  this.data = [];
   this.list.clear();
 };
 
