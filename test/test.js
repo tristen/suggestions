@@ -82,6 +82,25 @@ test('options', function(t) {
   t.end();
 });
 
+test('option: no filtering', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = ['bear', 'bearing', 'bar', 'ball'];
+  new Suggestions(input, data, {
+    filter: false
+  });
+
+  var suggestionsContainer = parent.querySelector('ul');
+
+  input.value = 'be';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+  t.equal(suggestionsContainer.querySelectorAll('li').length, 4, 'options.filter:false passed');
+  t.end();
+});
+
 test('Suggestion.getItemValue', function(t) {
   var parent = document.createElement('div');
   var input = document.createElement('input');
