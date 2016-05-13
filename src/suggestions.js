@@ -9,7 +9,8 @@ var Suggestions = function(el, data, options) {
 
   this.options = extend({
     minLength: 2,
-    limit: 5
+    limit: 5,
+    filter: true
   }, options);
 
   this.el = el;
@@ -160,7 +161,17 @@ Suggestions.prototype.getCandidates = function(callback) {
     extract: function(d) { return this.getItemValue(d); }.bind(this)
   };
 
-  var results = fuzzy.filter(this.query, this.data, options);
+  var results = this.options.filter ?
+    fuzzy.filter(this.query, this.data, options) :
+    this.data.map(function(d) {
+      return {
+        original: d,
+        string: this.getItemValue(d).replace(new RegExp('(' + this.query + ')', 'ig'), function($1, match) {
+          return '<strong>' + match + '</strong>';
+        })
+      };
+    }.bind(this));
+
   callback(results);
 };
 

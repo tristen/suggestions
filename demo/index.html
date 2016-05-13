@@ -105,12 +105,42 @@ input.addEventListener('change', function() {
 
 &lt;/script&gt;
 </pre>
+
+<h3>Example with filtering turned off</h3>
+<div class='contain space-bottom2'>
+  <input class='js-no-filtering-example' type='text' autocomplete='off' placeholder='Search trumpet player' />
+</div>
+
+<pre class='prettyprint space-bottom4'>
+&lt;script&gt;
+var input = document.querySelector('input');
+var data = [
+  'Roy Eldridge',
+  'Roy Hargrove',
+  'Tim Hagans',
+  'Tom Harrell',
+  'Freddie Hubbard',
+  'Nicholas Payton',
+  'Miles Davis',
+  'Dizzy Gillespie',
+  'Rex Stewart'
+];
+
+new Suggestions(input, data, {
+  filter: false
+});
+&lt;/script&gt;
+</pre>
+
       </div>
+
+
     </section>
 
     <script>
       var inputSimple = document.querySelector('.js-simple-example');
       var inputOptions = document.querySelector('.js-example-with-options');
+      var inputNoFiltering = document.querySelector('.js-no-filtering-example');
 
       var simpleData = [
         'Roy Eldridge',
@@ -154,6 +184,7 @@ input.addEventListener('change', function() {
       }];
 
       new Suggestions(inputSimple, simpleData);
+      new Suggestions(inputNoFiltering, simpleData, { filter:false });
       var typeahead = new Suggestions(inputOptions, objectData, {
         minLength: 3, // Number of characters typed into an input to trigger suggestions.
         limit: 3 //  Max number of results to display. 
