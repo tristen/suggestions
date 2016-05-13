@@ -1,3 +1,7 @@
+### v1.3.0
+
+- [featurel] filter option [#11](https://github.com/tristen/suggestions/pull/11)
+
 ### v1.2.0
 
 - [featurel] clear method [#10](https://github.com/tristen/suggestions/pull/10)

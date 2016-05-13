@@ -43,6 +43,7 @@ var data = [{
 }];
 
 var typeahead = new Suggestions(input, data, {
+  filter: false, // Disable filtering
   minLength: 3, // Number of characters typed into an input to trigger suggestions.
   limit: 3 //  Max number of results to display.
 });
