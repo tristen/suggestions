@@ -108,7 +108,7 @@ Suggestions.prototype.handleFocus = function() {
  */
 Suggestions.prototype.update = function(revisedData) {
   this.data = revisedData;
-  this.list.draw();
+  this.handleKeyUp();
 };
 
 /**
