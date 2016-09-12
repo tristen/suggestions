@@ -1,3 +1,7 @@
+### v1.3.1
+
+- [bug] Fix update method [#12](https://github.com/tristen/suggestions/pull/12)
+
 ### v1.3.0
 
 - [featurel] filter option [#11](https://github.com/tristen/suggestions/pull/11)
