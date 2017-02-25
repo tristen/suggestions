@@ -44,14 +44,33 @@ List.prototype.draw = function() {
     this.drawItem(this.items[i], this.active === i);
   }
 
+  this.drawStatus(this.items[this.active]);
+
   this.show();
+};
+
+/* Draws the selected option from the dropdown list for screen readers */
+List.prototype.drawStatus = function(activeItem) {
+  var span = document.createElement('span');
+  span.className = 'visually-hidden';
+  span.setAttribute('role', 'status');
+  span.setAttribute('aria-live', 'assertive');
+  span.setAttribute('aria-relevant', 'additions');
+  span.innerHTML = activeItem.original;
+
+  this.element.appendChild(span);
 };
 
 List.prototype.drawItem = function(item, active) {
   var li = document.createElement('li'),
     a = document.createElement('a');
 
-  if (active) li.className += ' active';
+  if (active) {
+    li.className += ' active';
+    li.setAttribute('aria-selected', 'true');
+  } else {
+    li.setAttribute('aria-selected', 'false');
+  }
 
   a.innerHTML = item.string;
 
