@@ -76,6 +76,7 @@ Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
     case 9:  // TAB
+      e.preventDefault();
       if (!this.list.isEmpty()) {
         this.value(this.list.items[this.list.active].original);
         this.list.hide();
