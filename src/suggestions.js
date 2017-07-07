@@ -58,22 +58,7 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
       keyCode === 13 ||
       keyCode === 9) return;
 
-  this.query = this.normalize(this.el.value);
-
-  this.list.clear();
-
-  if (this.query.length < this.options.minLength) {
-    this.list.draw();
-    return;
-  }
-
-  this.getCandidates(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      this.list.add(data[i]);
-      if (i === (this.options.limit - 1)) break;
-    }
-    this.list.draw();
-  }.bind(this));
+  this.handleInputChange(this.el.value);
 };
 
 Suggestions.prototype.handleKeyDown = function(e) {
@@ -104,7 +89,11 @@ Suggestions.prototype.handleBlur = function() {
 Suggestions.prototype.handlePaste = function(e) {
   var pasteText = e.clipboardData.getData('Text');
 
-  this.query = this.normalize(pasteText);
+  this.handleInputChange(pasteText);
+};
+
+Suggestions.prototype.handleInputChange = function(query) {
+  this.query = this.normalize(query);
 
   this.list.clear();
 
