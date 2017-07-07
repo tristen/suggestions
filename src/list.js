@@ -7,6 +7,11 @@ var List = function(component) {
   this.element = document.createElement('ul');
   this.element.className = 'suggestions';
 
+  // selectingListItem is set to true in the time between the mousedown and mouseup when clicking an item in the list
+  // mousedown on a list item will cause the input to blur which normally hides the list, so this flag is used to keep
+  // the list open until the mouseup
+  this.selectingListItem = false;
+
   component.el.parentNode.insertBefore(this.element, component.el.nextSibling);
   return this;
 };
@@ -59,11 +64,16 @@ List.prototype.drawItem = function(item, active) {
   this.element.appendChild(li);
 
   li.addEventListener('mousedown', function() {
-    this.handleMouseDown.call(this, item);
+    this.selectingListItem = true;
+  }.bind(this));
+
+  li.addEventListener('mouseup', function() {
+    this.handleMouseUp.call(this, item);
   }.bind(this));
 };
 
-List.prototype.handleMouseDown = function(item) {
+List.prototype.handleMouseUp = function(item) {
+  this.selectingListItem = false;
   this.component.value(item.original);
   this.clear();
   this.draw();

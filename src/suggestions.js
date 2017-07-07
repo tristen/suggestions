@@ -95,11 +95,14 @@ Suggestions.prototype.handleKeyDown = function(e) {
 };
 
 Suggestions.prototype.handleBlur = function() {
-  this.list.hide();
+  if (!this.list.selectingListItem) {
+    this.list.hide();
+  }
 };
 
 Suggestions.prototype.handleFocus = function() {
   if (!this.list.isEmpty()) this.list.show();
+  this.list.selectingListItem = false;
 };
 
 /**
