@@ -87,9 +87,14 @@ Suggestions.prototype.handleBlur = function() {
 };
 
 Suggestions.prototype.handlePaste = function(e) {
-  var pasteText = e.clipboardData.getData('Text');
-
-  this.handleInputChange(pasteText);
+  if (e.clipboardData) {
+    this.handleInputChange(e.clipboardData.getData('Text'));
+  } else {
+    var self = this;
+    setTimeout(function () {
+      self.handleInputChange(e.target.value);
+    }, 100);
+  }
 };
 
 Suggestions.prototype.handleInputChange = function(query) {
