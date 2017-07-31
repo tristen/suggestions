@@ -84,7 +84,9 @@ Suggestions.prototype.handleKeyDown = function(e) {
 };
 
 Suggestions.prototype.handleBlur = function() {
-  this.list.hide();
+  if (!this.list.selectingListItem) {
+    this.list.hide();
+  }
 };
 
 Suggestions.prototype.handlePaste = function(e) {
@@ -119,6 +121,7 @@ Suggestions.prototype.handleInputChange = function(query) {
 
 Suggestions.prototype.handleFocus = function() {
   if (!this.list.isEmpty()) this.list.show();
+  this.list.selectingListItem = false;
 };
 
 /**
