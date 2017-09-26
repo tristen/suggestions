@@ -1,3 +1,9 @@
+### v1.3.2
+
+- [bug] prevent form submission on selecting a result from the list [#15](https://github.com/tristen/suggestions/pull/15)
+- [bug] ensure paste events open list [#17](https://github.com/tristen/suggestions/pull/17)
+- [bug] use mouseup rather than mousedown for list selection [#18](https://github.com/tristen/suggestions/pull/18)
+
 ### v1.3.1
 
 - [bug] Fix update method [#12](https://github.com/tristen/suggestions/pull/12)
