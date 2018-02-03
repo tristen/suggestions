@@ -1,3 +1,8 @@
+### v1.3.3
+
+- [bug] permit special characters [#21](https://github.com/tristen/suggestions/pull/21)
+
+
 ### v1.3.2
 
 - [bug] prevent form submission on selecting a result from the list [#15](https://github.com/tristen/suggestions/pull/15)
