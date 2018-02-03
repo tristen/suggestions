@@ -187,11 +187,17 @@ Suggestions.prototype.getCandidates = function(callback) {
   var results = this.options.filter ?
     fuzzy.filter(this.query, this.data, options) :
     this.data.map(function(d) {
+      var boldString = this.getItemValue(d);
+      var indexString = this.normalize(boldString);
+      var indexOfQuery = indexString.lastIndexOf(this.query);
+      while(indexOfQuery > -1) {
+        var endIndexOfQuery = indexOfQuery + this.query.length;
+        boldString = boldString.slice(0, indexOfQuery) + '<strong>' + boldString.slice(indexOfQuery, endIndexOfQuery) + '</strong>' + boldString.slice(endIndexOfQuery);
+        indexOfQuery = indexString.slice(0, indexOfQuery).lastIndexOf(this.query);
+      }
       return {
         original: d,
-        string: this.getItemValue(d).replace(new RegExp('(' + this.query + ')', 'ig'), function($1, match) {
-          return '<strong>' + match + '</strong>';
-        })
+        string: boldString
       };
     }.bind(this));
 

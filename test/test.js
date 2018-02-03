@@ -101,6 +101,30 @@ test('option: no filtering', function(t) {
   t.end();
 });
 
+test('option: no filtering special characters', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = ['pea', 'pea(nut)', 'pea(nut)butter'];
+  new Suggestions(input, data, {
+    filter: false
+  });
+
+  var suggestionsContainer = parent.querySelector('ul');
+
+  input.value = 'ea(nu';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  var innerHTMLs = Array.from(suggestionsContainer.querySelectorAll('a')).map(function(a) {
+    return a.innerHTML;
+  });
+
+  t.deepEqual(innerHTMLs, ['pea', 'p<strong>ea(nu</strong>t)', 'p<strong>ea(nu</strong>t)butter'], 'special characters options.filter:false passed');
+  t.end();
+});
+
 test('Suggestion.getItemValue', function(t) {
   var parent = document.createElement('div');
   var input = document.createElement('input');
