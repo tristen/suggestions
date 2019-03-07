@@ -1,7 +1,10 @@
+### v1.3.4
+
+- [bug] Enable usage of tab to focus next element after selection [#24](https://github.com/tristen/suggestions/pull/24)
+
 ### v1.3.3
 
 - [bug] permit special characters [#21](https://github.com/tristen/suggestions/pull/21)
-
 
 ### v1.3.2
 
