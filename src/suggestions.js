@@ -64,9 +64,11 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
 Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
-    case 9:  // TAB
-      e.preventDefault();
+    case 9: // TAB
       if (!this.list.isEmpty()) {
+        if (this.list.isVisible()) {
+          e.preventDefault();
+        }
         this.value(this.list.items[this.list.active].original);
         this.list.hide();
       }

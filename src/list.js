@@ -37,6 +37,10 @@ List.prototype.isEmpty = function() {
   return !this.items.length;
 };
 
+List.prototype.isVisible = function() {
+  return this.element.style.display === 'block';
+};
+
 List.prototype.draw = function() {
   this.element.innerHTML = '';
 
