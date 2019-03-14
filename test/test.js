@@ -205,6 +205,39 @@ test('Suggestion.clear', function(t) {
   t.end();
 });
 
+test('Suggestion.render', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = [{
+    name: 'bear',
+    id: 0
+  }, {
+    name: 'bearing',
+    id: 1
+  }, {
+    name: 'bar',
+    id: 2
+  }, {
+    name: 'ball',
+    id: 3
+  }];
+
+  var typeahead = new Suggestions(input, data, {filter: false});
+  typeahead.render = function(item) { return '<b class="custom result">' + item.name +  "</b>"; };
+
+  input.value = 'bear';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
+  var firstItem = parent.getElementsByTagName("b").item(0);
+  t.equals(firstItem.className, 'custom result', 'the custom class name is applied to the rendered elements');
+  t.equals(firstItem.innerHTML, 'bear', 'the rendered text is correct');
+  t.end();
+});
+
 // close the smokestack window once tests are complete
 test('shutdown', function(t) {
   t.end();
@@ -212,3 +245,5 @@ test('shutdown', function(t) {
     window.close();
   });
 });
+
+
