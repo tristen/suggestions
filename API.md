@@ -93,6 +93,16 @@ Normalize the results list and input value for matching
 
 Returns **String** 
 
+## render
+
+For a given item in the data array, return a string of html that should be rendered in the dropdown
+
+**Parameters**
+
+-   `item` **Object or String** an item from the data array
+
+Returns **String** html
+
 ## update
 
 Update data previously passed
