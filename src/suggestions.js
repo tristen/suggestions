@@ -55,8 +55,7 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
   if (keyCode === 40 ||
       keyCode === 38 ||
       keyCode === 27 ||
-      keyCode === 13 ||
-      keyCode === 9) return;
+      keyCode === 13 ) return;
 
   this.handleInputChange(this.el.value);
 };
@@ -64,7 +63,6 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
 Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
-    case 9: // TAB
       if (!this.list.isEmpty()) {
         if (this.list.isVisible()) {
           e.preventDefault();
