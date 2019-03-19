@@ -310,5 +310,3 @@ test('shutdown', function(t) {
     window.close();
   });
 });
-
-

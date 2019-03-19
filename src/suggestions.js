@@ -56,10 +56,10 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
   // 9 - TAB
 
   if (keyCode === 40 ||
-    keyCode === 38 ||
-    keyCode === 27 ||
-    keyCode === 13 ||
-    keyCode === 9) return;
+      keyCode === 38 ||
+      keyCode === 27 ||
+      keyCode === 13 ||
+      keyCode === 9) return;
 
   this.handleInputChange(this.el.value);
 };
@@ -68,21 +68,23 @@ Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
     case 9: // TAB
-      e.preventDefault();
       if (!this.list.isEmpty()) {
+        if (this.list.isVisible()) {	
+          e.preventDefault();	
+        }
         this.value(this.list.items[this.list.active].original);
         this.list.hide();
       }
-      break;
+    break;
     case 27: // ESC
       if (!this.list.isEmpty()) this.list.hide();
-      break;
+    break;
     case 38: // UP
       this.list.previous();
-      break;
+    break;
     case 40: // DOWN
       this.list.next();
-      break;
+    break;
   }
 };
 
@@ -97,7 +99,7 @@ Suggestions.prototype.handlePaste = function(e) {
     this.handleInputChange(e.clipboardData.getData('Text'));
   } else {
     var self = this;
-    setTimeout(function() {
+    setTimeout(function () {
       self.handleInputChange(e.target.value);
     }, 100);
   }
@@ -184,9 +186,7 @@ Suggestions.prototype.getCandidates = function(callback) {
   var options = {
     pre: '<strong>',
     post: '</strong>',
-    extract: function(d) {
-      return this.getItemValue(d);
-    }.bind(this)
+    extract: function(d) { return this.getItemValue(d); }.bind(this)
   };
   var results;
   if(this.options.filter){
