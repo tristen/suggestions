@@ -205,7 +205,7 @@ test('Suggestion.clear', function(t) {
   t.end();
 });
 
-test('Suggestion.render', function(t) {
+test('Suggestion.render [no filter]', function(t) {
   var parent = document.createElement('div');
   var input = document.createElement('input');
   parent.appendChild(input);
@@ -235,6 +235,71 @@ test('Suggestion.render', function(t) {
   var firstItem = parent.getElementsByTagName("b").item(0);
   t.equals(firstItem.className, 'custom result', 'the custom class name is applied to the rendered elements');
   t.equals(firstItem.innerHTML, 'bear', 'the rendered text is correct');
+  t.end();
+});
+
+test('Suggestion.render [filter]', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = [{
+    name: 'bear',
+    id: 0
+  }, {
+    name: 'bearing',
+    id: 1
+  }, {
+    name: 'bar',
+    id: 2
+  }, {
+    name: 'ball',
+    id: 3
+  }];
+
+  var typeahead = new Suggestions(input, data);
+  typeahead.render = function(item) { return '<b class="custom result">' + item.name +  "</b>"; };
+  typeahead.getItemValue = function(item) { return item.name };
+  input.value = 'bear';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
+  var firstItem = parent.getElementsByTagName("b").item(0);
+  t.equals(firstItem.className, 'custom result', 'the custom class name is applied to the rendered elements');
+  t.equals(firstItem.innerHTML, 'bear', 'the rendered text is correct');
+  t.end();
+});
+
+test('Suggestion.render [filter with sourceformatted text]', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = [{
+    name: 'bear',
+    id: 0
+  }, {
+    name: 'bearing',
+    id: 1
+  }, {
+    name: 'bar',
+    id: 2
+  }, {
+    name: 'ball',
+    id: 3
+  }];
+
+  var typeahead = new Suggestions(input, data, {filter: false});
+  typeahead.getItemValue = function(item) { return item.name };
+
+  input.value = 'bear';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+
+  t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
+  var firstItem = parent.querySelectorAll('ul li').item(0);
+  t.equals(firstItem.innerHTML, '<a><strong>bear</strong></a>', 'the rendered text is correct when no custom rendering function is given');
   t.end();
 });
 

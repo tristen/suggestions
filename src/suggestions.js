@@ -4,7 +4,7 @@ var extend = require('xtend');
 var fuzzy = require('fuzzy');
 var List = require('./list');
 
-var Suggestions = function (el, data, options) {
+var Suggestions = function(el, data, options) {
   options = options || {};
 
   this.options = extend({
@@ -22,30 +22,33 @@ var Suggestions = function (el, data, options) {
 
   this.list.draw();
 
-  this.el.addEventListener('keyup', function (e) {
+  this.el.addEventListener('keyup', function(e) {
     this.handleKeyUp(e.keyCode);
   }.bind(this), false);
 
-  this.el.addEventListener('keydown', function (e) {
+  this.el.addEventListener('keydown', function(e) {
     this.handleKeyDown(e);
   }.bind(this));
 
-  this.el.addEventListener('focus', function () {
+  this.el.addEventListener('focus', function() {
     this.handleFocus();
   }.bind(this));
 
-  this.el.addEventListener('blur', function () {
+  this.el.addEventListener('blur', function() {
     this.handleBlur();
   }.bind(this));
 
-  this.el.addEventListener('paste', function (e) {
+  this.el.addEventListener('paste', function(e) {
     this.handlePaste(e);
   }.bind(this));
+
+  // use user-provided render function if given, otherwise just use the default
+  this.render = (this.options.render) ? this.options.render.bind(this) : this.render.bind(this)
 
   return this;
 };
 
-Suggestions.prototype.handleKeyUp = function (keyCode) {
+Suggestions.prototype.handleKeyUp = function(keyCode) {
   // 40 - DOWN
   // 38 - UP
   // 27 - ESC
@@ -61,7 +64,7 @@ Suggestions.prototype.handleKeyUp = function (keyCode) {
   this.handleInputChange(this.el.value);
 };
 
-Suggestions.prototype.handleKeyDown = function (e) {
+Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
     case 9: // TAB
@@ -83,24 +86,24 @@ Suggestions.prototype.handleKeyDown = function (e) {
   }
 };
 
-Suggestions.prototype.handleBlur = function () {
+Suggestions.prototype.handleBlur = function() {
   if (!this.list.selectingListItem) {
     this.list.hide();
   }
 };
 
-Suggestions.prototype.handlePaste = function (e) {
+Suggestions.prototype.handlePaste = function(e) {
   if (e.clipboardData) {
     this.handleInputChange(e.clipboardData.getData('Text'));
   } else {
     var self = this;
-    setTimeout(function () {
+    setTimeout(function() {
       self.handleInputChange(e.target.value);
     }, 100);
   }
 };
 
-Suggestions.prototype.handleInputChange = function (query) {
+Suggestions.prototype.handleInputChange = function(query) {
   this.query = this.normalize(query);
 
   this.list.clear();
@@ -110,7 +113,7 @@ Suggestions.prototype.handleInputChange = function (query) {
     return;
   }
 
-  this.getCandidates(function (data) {
+  this.getCandidates(function(data) {
     for (var i = 0; i < data.length; i++) {
       this.list.add(data[i]);
       if (i === (this.options.limit - 1)) break;
@@ -119,7 +122,7 @@ Suggestions.prototype.handleInputChange = function (query) {
   }.bind(this));
 };
 
-Suggestions.prototype.handleFocus = function () {
+Suggestions.prototype.handleFocus = function() {
   if (!this.list.isEmpty()) this.list.show();
   this.list.selectingListItem = false;
 };
@@ -129,7 +132,7 @@ Suggestions.prototype.handleFocus = function () {
  *
  * @param {Array} revisedData
  */
-Suggestions.prototype.update = function (revisedData) {
+Suggestions.prototype.update = function(revisedData) {
   this.data = revisedData;
   this.handleKeyUp();
 };
@@ -137,7 +140,7 @@ Suggestions.prototype.update = function (revisedData) {
 /**
  * Clears data
  */
-Suggestions.prototype.clear = function () {
+Suggestions.prototype.clear = function() {
   this.data = [];
   this.list.clear();
 };
@@ -148,7 +151,7 @@ Suggestions.prototype.clear = function () {
  * @param {String} value
  * @return {String}
  */
-Suggestions.prototype.normalize = function (value) {
+Suggestions.prototype.normalize = function(value) {
   value = value.toLowerCase();
   return value;
 };
@@ -160,11 +163,11 @@ Suggestions.prototype.normalize = function (value) {
  * @param {String} query the current query
  * @return {Boolean}
  */
-Suggestions.prototype.match = function (candidate, query) {
+Suggestions.prototype.match = function(candidate, query) {
   return candidate.indexOf(query) > -1;
 };
 
-Suggestions.prototype.value = function (value) {
+Suggestions.prototype.value = function(value) {
   this.selected = value;
   this.el.value = this.getItemValue(value);
 
@@ -177,24 +180,33 @@ Suggestions.prototype.value = function (value) {
   }
 };
 
-Suggestions.prototype.getCandidates = function (callback) {
+Suggestions.prototype.getCandidates = function(callback) {
   var options = {
     pre: '<strong>',
     post: '</strong>',
-    extract: function (d) {
+    extract: function(d) {
       return this.getItemValue(d);
     }.bind(this)
   };
-  var results = this.options.filter ?
-    fuzzy.filter(this.query, this.data, options) :
-    this.data.map(function (d) {
+  var results;
+  if(this.options.filter){
+    results = fuzzy.filter(this.query, this.data, options);
+
+    results = results.map(function(item){
+      return {
+        original: item.original,
+        string: this.render(item.original, item.string)
+      };
+    }.bind(this))
+  }else{
+    results = this.data.map(function(d) {
       var renderedString = this.render(d);
       return {
         original: d,
         string: renderedString
       };
     }.bind(this));
-
+  }
   callback(results);
 };
 
@@ -204,19 +216,23 @@ Suggestions.prototype.getCandidates = function (callback) {
  * @param {Object|String} item an item from the data array
  * @return {String} item
  */
-Suggestions.prototype.getItemValue = function (item) {
+Suggestions.prototype.getItemValue = function(item) {
   return item;
 };
 
 /**
  * For a given item in the data array, return a string of html that should be rendered in the dropdown
  * @param {Object|String} item an item from the data array
+ * @param {String} sourceFormatting a string that has pre-formatted html that should be passed directly through the render function 
  * @return {String} html
  */
-Suggestions.prototype.render = function (item) {
-  var boldString = this.getItemValue(item);
+Suggestions.prototype.render = function(item, sourceFormatting) {
+  if (sourceFormatting){
+    // use existing formatting on the source string
+    return sourceFormatting;
+  }
+  var boldString = (item.original) ? this.getItemValue(item.original) : this.getItemValue(item);
   var indexString = this.normalize(boldString);
-
   var indexOfQuery = indexString.lastIndexOf(this.query);
   while (indexOfQuery > -1) {
     var endIndexOfQuery = indexOfQuery + this.query.length;
