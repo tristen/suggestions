@@ -132,6 +132,55 @@ new Suggestions(input, data, {
 &lt;/script&gt;
 </pre>
 
+<h3>Example with a custom render function</h3>
+<div class='contain space-bottom2'>
+  <input class='js-custom-render-example' type='text' autocomplete='off' placeholder='Search trumpet player' />
+</div>
+
+<pre class='prettyprint space-bottom4'>
+&lt;script&gt;
+var input = document.querySelector('input');
+var data = [{
+  name: 'Roy Eldridge',
+  year: 1911
+}, {
+  name: 'Roy Hargrove',
+  year: 1969
+}, {
+  name: 'Tim Hagans',
+  year: 1954
+}, {
+  name: 'Tom Harrell',
+  year: 1946
+}, {
+  name: 'Freddie Hubbard',
+  year: 1938
+}, {
+  name: 'Nicholas Payton',
+  year: 1973
+}, {
+  name: 'Miles Davis',
+  year: 1926
+}, {
+  name: 'Dizzy Gillespie',
+  year: 1917
+}, {
+  name: 'Rex Stewart',
+  year: 1907
+}];
+
+
+var customRenderSuggestion = new Suggestions(inputCustomRender, objectData, { 
+  render: function(item){
+    return "<div><b>${item.name}</b> <i>(${item.year})</i></div>"
+  },
+  getItemValue: function(item){
+    return item.name
+  }
+});
+&lt;/script&gt;
+</pre>
+
       </div>
 
 
@@ -141,6 +190,7 @@ new Suggestions(input, data, {
       var inputSimple = document.querySelector('.js-simple-example');
       var inputOptions = document.querySelector('.js-example-with-options');
       var inputNoFiltering = document.querySelector('.js-no-filtering-example');
+      var inputCustomRender = document.querySelector('.js-custom-render-example');
 
       var simpleData = [
         'Roy Eldridge',
@@ -196,6 +246,15 @@ new Suggestions(input, data, {
 
       inputOptions.addEventListener('change', function() {
         console.log(typeahead.selected); // Current selected item.
+      });
+
+      var customRenderSuggestion = new Suggestions(inputCustomRender, objectData, { 
+        render: function(item){
+          return `<div><b>${item.name}</b> <i>(${item.year})</i></div>`
+        },
+        getItemValue: function(item){
+          return item.name
+        }
       });
 
 

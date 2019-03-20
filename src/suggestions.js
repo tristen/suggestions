@@ -42,6 +42,11 @@ var Suggestions = function(el, data, options) {
     this.handlePaste(e);
   }.bind(this));
 
+  // use user-provided render function if given, otherwise just use the default
+  this.render = (this.options.render) ? this.options.render.bind(this) : this.render.bind(this)
+
+  this.getItemValue = (this.options.getItemValue) ? this.options.getItemValue.bind(this) : this.getItemValue.bind(this);
+
   return this;
 };
 
@@ -185,24 +190,25 @@ Suggestions.prototype.getCandidates = function(callback) {
     post: '</strong>',
     extract: function(d) { return this.getItemValue(d); }.bind(this)
   };
+  var results;
+  if(this.options.filter){
+    results = fuzzy.filter(this.query, this.data, options);
 
-  var results = this.options.filter ?
-    fuzzy.filter(this.query, this.data, options) :
-    this.data.map(function(d) {
-      var boldString = this.getItemValue(d);
-      var indexString = this.normalize(boldString);
-      var indexOfQuery = indexString.lastIndexOf(this.query);
-      while(indexOfQuery > -1) {
-        var endIndexOfQuery = indexOfQuery + this.query.length;
-        boldString = boldString.slice(0, indexOfQuery) + '<strong>' + boldString.slice(indexOfQuery, endIndexOfQuery) + '</strong>' + boldString.slice(endIndexOfQuery);
-        indexOfQuery = indexString.slice(0, indexOfQuery).lastIndexOf(this.query);
-      }
+    results = results.map(function(item){
+      return {
+        original: item.original,
+        string: this.render(item.original, item.string)
+      };
+    }.bind(this))
+  }else{
+    results = this.data.map(function(d) {
+      var renderedString = this.render(d);
       return {
         original: d,
-        string: boldString
+        string: renderedString
       };
     }.bind(this));
-
+  }
   callback(results);
 };
 
@@ -215,5 +221,27 @@ Suggestions.prototype.getCandidates = function(callback) {
 Suggestions.prototype.getItemValue = function(item) {
   return item;
 };
+
+/**
+ * For a given item in the data array, return a string of html that should be rendered in the dropdown
+ * @param {Object|String} item an item from the data array
+ * @param {String} sourceFormatting a string that has pre-formatted html that should be passed directly through the render function 
+ * @return {String} html
+ */
+Suggestions.prototype.render = function(item, sourceFormatting) {
+  if (sourceFormatting){
+    // use existing formatting on the source string
+    return sourceFormatting;
+  }
+  var boldString = (item.original) ? this.getItemValue(item.original) : this.getItemValue(item);
+  var indexString = this.normalize(boldString);
+  var indexOfQuery = indexString.lastIndexOf(this.query);
+  while (indexOfQuery > -1) {
+    var endIndexOfQuery = indexOfQuery + this.query.length;
+    boldString = boldString.slice(0, indexOfQuery) + '<strong>' + boldString.slice(indexOfQuery, endIndexOfQuery) + '</strong>' + boldString.slice(endIndexOfQuery);
+    indexOfQuery = indexString.slice(0, indexOfQuery).lastIndexOf(this.query);
+  }
+  return boldString
+}
 
 module.exports = Suggestions;
