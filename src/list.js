@@ -56,7 +56,7 @@ List.prototype.drawStatus = function(activeItem) {
   span.setAttribute('role', 'status');
   span.setAttribute('aria-live', 'assertive');
   span.setAttribute('aria-relevant', 'additions');
-  span.innerHTML = activeItem.original;
+  span.innerHTML = this.component.getItemValue(activeItem.original);
 
   this.element.appendChild(span);
 };
