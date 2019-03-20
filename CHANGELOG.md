@@ -1,3 +1,6 @@
+### v1.4.0
+- [feature] Add custom html rendering function [#25](https://github.com/tristen/suggestions/pull/25)
+
 ### v1.3.4
 
 - [bug] Enable usage of tab to focus next element after selection [#24](https://github.com/tristen/suggestions/pull/24)
