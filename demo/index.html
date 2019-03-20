@@ -170,9 +170,9 @@ var data = [{
 }];
 
 
-new Suggestions(inputCustomRender, objectData, { 
+var customRenderSuggestion = new Suggestions(inputCustomRender, objectData, { 
   render: function(item){
-    return `<div><b>${item.name}</b> <i>(${item.year})</i></div>`
+    return "<div><b>${item.name}</b> <i>(${item.year})</i></div>"
   },
   getItemValue: function(item){
     return item.name

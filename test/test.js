@@ -144,16 +144,17 @@ test('Suggestion.getItemValue', function(t) {
     id: 3
   }];
 
-  var typeahead = new Suggestions(input, data);
-  typeahead.getItemValue = function(item) { return item.name; };
+  new Suggestions(input, data, {getItemValue: function(item) { return item.name; }});
 
   input.value = 'bear';
   input.dispatchEvent(keyUpEvent);
   input.dispatchEvent(focusEvent);
 
   t.ok(parent.querySelectorAll('ul li').length, 'results populated when an object of arrays were passed');
-
-  // TODO test that after enter, suggestions.selected works.
+  var firstElement = parent.querySelectorAll('ul li').item(0).innerHTML;
+  // remove the auto-formatted <strong>s so we can do an equality comparison
+  firstElement = firstElement.split("<strong>").join("").split("</strong>").join("");
+  t.equals(firstElement, "<a>bear</a>")
   t.end();
 });
 

@@ -45,6 +45,8 @@ var Suggestions = function(el, data, options) {
   // use user-provided render function if given, otherwise just use the default
   this.render = (this.options.render) ? this.options.render.bind(this) : this.render.bind(this)
 
+  this.getItemValue = (this.options.getItemValue) ? this.options.getItemValue.bind(this) : this.getItemValue.bind(this);
+
   return this;
 };
 
@@ -69,8 +71,8 @@ Suggestions.prototype.handleKeyDown = function(e) {
     case 13: // ENTER
     case 9: // TAB
       if (!this.list.isEmpty()) {
-        if (this.list.isVisible()) {	
-          e.preventDefault();	
+        if (this.list.isVisible()) {
+          e.preventDefault();
         }
         this.value(this.list.items[this.list.active].original);
         this.list.hide();
