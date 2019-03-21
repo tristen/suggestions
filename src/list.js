@@ -4,15 +4,18 @@ var List = function(component) {
   this.component = component;
   this.items = [];
   this.active = 0;
+  this.wrapper = document.createElement('div');
+  this.wrapper.className = 'suggestions-wrapper';
   this.element = document.createElement('ul');
   this.element.className = 'suggestions';
+  this.wrapper.appendChild(this.element);
 
   // selectingListItem is set to true in the time between the mousedown and mouseup when clicking an item in the list
   // mousedown on a list item will cause the input to blur which normally hides the list, so this flag is used to keep
   // the list open until the mouseup
   this.selectingListItem = false;
 
-  component.el.parentNode.insertBefore(this.element, component.el.nextSibling);
+  component.el.parentNode.insertBefore(this.wrapper, component.el.nextSibling);
   return this;
 };
 
