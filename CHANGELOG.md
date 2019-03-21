@@ -1,3 +1,6 @@
+### v1.5.0
+- Add wrapper around ul.suggestions [#28](https://github.com/tristen/suggestions/pull/28)
+
 ### v1.4.0
 - [feature] Add custom html rendering function [#25](https://github.com/tristen/suggestions/pull/25)
 
