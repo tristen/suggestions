@@ -96,4 +96,13 @@ List.prototype.next = function() {
   this.move(this.active === this.items.length - 1 ? 0 : this.active + 1);
 };
 
+List.prototype.drawError = function(msg){
+  var li = document.createElement('li');
+
+  li.innerHTML = msg;
+
+  this.element.appendChild(li);
+  this.show();
+}
+
 module.exports = List;
