@@ -1,3 +1,7 @@
+### v1.6.0
+- Add `renderError` method to enable messages with arbitrary text [#29](https://github.com/tristen/suggestions/pull/29)
+
+
 ### v1.5.0
 - Add wrapper around ul.suggestions [#28](https://github.com/tristen/suggestions/pull/28)
 
