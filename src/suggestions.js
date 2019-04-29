@@ -244,4 +244,12 @@ Suggestions.prototype.render = function(item, sourceFormatting) {
   return boldString
 }
 
+/**
+ * Render an custom error message in the suggestions list
+ * @param {String} msg An html string to render as an error message
+ */
+Suggestions.prototype.renderError = function(msg){
+  this.list.drawError(msg);
+}
+
 module.exports = Suggestions;

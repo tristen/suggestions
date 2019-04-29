@@ -304,6 +304,17 @@ test('Suggestion.render [filter with sourceformatted text]', function(t) {
   t.end();
 });
 
+test('suggestion.renderError', function(t){
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input)
+  var typeahead = new Suggestions(input, [], {filter: false});
+  typeahead.renderError("This is a test");
+  var firstItem = parent.querySelectorAll('ul li').item(0);
+  t.equals(firstItem.innerHTML, 'This is a test', 'the rendered text is correct when rendering an error');
+  t.end();
+})
+
 // close the smokestack window once tests are complete
 test('shutdown', function(t) {
   t.end();
