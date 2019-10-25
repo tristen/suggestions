@@ -125,6 +125,30 @@ test('option: no filtering special characters', function(t) {
   t.end();
 });
 
+test('option: no hide on blur', function(t) {
+  var parent = document.createElement('div');
+  var input = document.createElement('input');
+  parent.appendChild(input);
+
+  var data = ['testing'];
+  new Suggestions(input, data, {
+    minLength: 3,
+    limit: 1,
+    hideOnBlur: false
+  });
+
+  var suggestionsContainer = parent.querySelector('ul');
+
+  input.value = 'test';
+  input.dispatchEvent(keyUpEvent);
+  input.dispatchEvent(focusEvent);
+  t.equal(suggestionsContainer.style.display, 'block', 'options.hideOnBlur passed by not hiding prior to blur');
+  input.dispatchEvent(blurEvent);
+  t.equal(suggestionsContainer.style.display, 'block', 'options.hideOnBlur passed by not hiding on blur');
+
+  t.end();
+});
+
 test('Suggestion.getItemValue', function(t) {
   var parent = document.createElement('div');
   var input = document.createElement('input');
