@@ -10,7 +10,8 @@ var Suggestions = function(el, data, options) {
   this.options = extend({
     minLength: 2,
     limit: 5,
-    filter: true
+    filter: true,
+    hideOnBlur: true
   }, options);
 
   this.el = el;
@@ -91,7 +92,7 @@ Suggestions.prototype.handleKeyDown = function(e) {
 };
 
 Suggestions.prototype.handleBlur = function() {
-  if (!this.list.selectingListItem) {
+  if (!this.list.selectingListItem && this.options.hideOnBlur) {
     this.list.hide();
   }
 };
