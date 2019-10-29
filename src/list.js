@@ -1,4 +1,4 @@
-'Use strict';
+'use strict';
 
 var List = function(component) {
   this.component = component;
