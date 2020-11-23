@@ -1,3 +1,6 @@
+### v1.7.1
+- Only add to window if window exists [#42](https://github.com/tristen/suggestions/pull/42)
+
 ### v1.7.0
 - [feature] Add `hideOnBlur` option [#30](https://github.com/tristen/suggestions/pull/30)
 
