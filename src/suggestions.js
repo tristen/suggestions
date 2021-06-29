@@ -11,7 +11,8 @@ var Suggestions = function(el, data, options) {
     minLength: 2,
     limit: 5,
     filter: true,
-    hideOnBlur: true
+    hideOnBlur: true,
+    noInitialSelection: false
   }, options);
 
   this.el = el;
@@ -75,7 +76,7 @@ Suggestions.prototype.handleKeyDown = function(e) {
         if (this.list.isVisible()) {
           e.preventDefault();
         }
-        this.value(this.list.items[this.list.active].original);
+        this.value(this.list.active >= 0 ? this.list.items[this.list.active].original : null);
         this.list.hide();
       }
     break;
@@ -174,7 +175,7 @@ Suggestions.prototype.match = function(candidate, query) {
 
 Suggestions.prototype.value = function(value) {
   this.selected = value;
-  this.el.value = this.getItemValue(value);
+  this.el.value = this.getItemValue(value || { place_name: this.query });
 
   if (document.createEvent) {
     var e = document.createEvent('HTMLEvents');
