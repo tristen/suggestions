@@ -70,7 +70,9 @@ Suggestions.prototype.handleKeyUp = function(keyCode) {
 Suggestions.prototype.handleKeyDown = function(e) {
   switch (e.keyCode) {
     case 13: // ENTER
-    case 9: // TAB
+      if (this.list.active === undefined) {
+        return
+      }
       if (!this.list.isEmpty()) {
         if (this.list.isVisible()) {
           e.preventDefault();
@@ -78,14 +80,20 @@ Suggestions.prototype.handleKeyDown = function(e) {
         this.value(this.list.items[this.list.active].original);
         this.list.hide();
       }
+    case 9: // TAB
+      if (!this.list.isEmpty()) {
+        this.list.hide();
+      }
     break;
     case 27: // ESC
       if (!this.list.isEmpty()) this.list.hide();
     break;
     case 38: // UP
+      e.preventDefault()
       this.list.previous();
     break;
     case 40: // DOWN
+      e.preventDefault()
       this.list.next();
     break;
   }

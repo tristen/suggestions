@@ -3,7 +3,7 @@
 var List = function(component) {
   this.component = component;
   this.items = [];
-  this.active = 0;
+  this.active = undefined;
   this.wrapper = document.createElement('div');
   this.wrapper.className = 'suggestions-wrapper';
   this.element = document.createElement('ul');
@@ -33,7 +33,7 @@ List.prototype.add = function(item) {
 
 List.prototype.clear = function() {
   this.items = [];
-  this.active = 0;
+  this.active = undefined;
 };
 
 List.prototype.isEmpty = function() {
@@ -92,11 +92,19 @@ List.prototype.move = function(index) {
 };
 
 List.prototype.previous = function() {
-  this.move(this.active === 0 ? this.items.length - 1 : this.active - 1);
+  if (this.active === undefined || this.active === 0) {
+    this.move(this.items.length - 1)
+  } else {
+    this.move(this.active - 1)
+  }
 };
 
 List.prototype.next = function() {
-  this.move(this.active === this.items.length - 1 ? 0 : this.active + 1);
+  if (this.active === undefined || this.active === this.items.length - 1) {
+    this.move(0)
+  } else {
+    this.move(this.active + 1)
+  }
 };
 
 List.prototype.drawError = function(msg){
